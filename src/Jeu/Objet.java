@@ -1,3 +1,4 @@
+package Jeu;
 public class Objet {
 public String nom;
 public String Specificite;

@@ -161,6 +161,7 @@ public class Main {
 			Narration(
 					"Vous vous reveillez avec l'esprit en feu . Et des formules magiques oubliees dansent devant vos yeux.");
 			Narration("une étrangère poussiere d'etoile brille sur vos vetements");
+			System.out.println("a");
 		}
 
 	}

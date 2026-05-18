@@ -1,52 +1,35 @@
 package JeuFactory;
 
-import java.util.ArrayList;
+public class ObjetFactory implements TypeObjets {
+    private String nom;
+    private String specificite;
+    private int valeur;
 
+    public ObjetFactory(String nom, String specificite, int valeur) {
+        this.nom = nom;
+        this.specificite = specificite;
+        this.valeur = valeur;
+    }
 
-import Jeu.Personnage;
+    public String getNom() {
+        return nom;
+    }
 
+    public String getSpecificite() {
+        return specificite;
+    }
 
-public class Objet implements TypeObjets {
-public String nom;
-public String Specificite;
-public int valeur;
-public ArrayList<Objet> objets;
-public ArrayList<Personnage> PNG ;
-public String getNom() {
-	return nom;
-}
+    public int getValeur() {
+        return valeur;
+    }
 
-public Objet(String nom, String specificite, int valeur) {
-	this.nom = nom;
-	Specificite = specificite;
-	this.valeur = valeur;
-}
+    @Override
+    public String decrire() {
+        return "Objet: " + nom + " [" + specificite + " +" + valeur + "]";
+    }
 
-public void setNom(String nom) {
-	this.nom = nom;
-}
-public String getSpecificite() {
-	return Specificite;
-}
-public void setSpecificite(String specificite) {
-	Specificite = specificite;
-}
-public int getValeur() {
-	return valeur;
-}
-public void setValeur(int valeur) {
-	this.valeur = valeur;
-}
-
-@Override
-public String toString() {
-	return "Objet [nom=" + nom + " (" + Specificite +")" + "  valeur=" + valeur + "]";
-}
-
-@Override
-public String decrire() {
-	System.out.print("je suis dans les pieces");
-	return Specificite;
-}
-
+    @Override
+    public String toString() {
+        return decrire();
+    }
 }

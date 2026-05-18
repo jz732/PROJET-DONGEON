@@ -2,7 +2,7 @@ package JeuState;
 
 import Jeu.Personnage;
 
-public class EtatRenforce
+public class EtatMort
 implements EtatPersonnage {
 
     @Override
@@ -10,7 +10,7 @@ implements EtatPersonnage {
             int degatsBase
     ) {
 
-        return degatsBase + 3;
+        return 0;
     }
 
     @Override
@@ -19,10 +19,7 @@ implements EtatPersonnage {
             int armure
     ) {
 
-        return Math.max(
-            0,
-            degatsRecus - (armure + 2)
-        );
+        return 0;
     }
 
     @Override
@@ -30,15 +27,12 @@ implements EtatPersonnage {
             Personnage personnage
     ) {
 
-        // Retour état normal après 1 tour
-        personnage.setEtat(
-            new EtatNormal()
-        );
+        // Rien
     }
 
     @Override
     public String getNomEtat() {
 
-        return "Renforcé";
+        return "Mort";
     }
 }

@@ -3,6 +3,9 @@ package Jeu;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
+import JeuState.EtatMort;
+import JeuState.EtatNormal;
+import JeuState.EtatPersonnage;
 import Observer.GameEvent;
 import Observer.GameEventType;
 import Observer.Observable;
@@ -19,6 +22,7 @@ public class Personnage implements Observable {
 	public Inventaire inventaire;
 	public int degat;
 	public int niveau;
+	private EtatPersonnage etat;
 
 	// --- NOUVEAUX ATTRIBUTS D'ÉQUIPEMENT ---
 	public Objet armeEquipee;
@@ -33,6 +37,7 @@ public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 	this.vie=vie;
 	this.inventaire=new Inventaire();
 	this.degat=degat;
+	this.etat = new EtatNormal();
 	
 	this.observers=new ArrayList<Observer>();
 	this.inventaire.addObserver(new Observer() {
@@ -79,6 +84,27 @@ public void act(Personnage target) {
 	}
 }
 
+public EtatPersonnage getEtat() {
+
+    return etat;
+}
+
+public void setEtat(
+        EtatPersonnage nouvelEtat
+) {
+
+    this.etat = nouvelEtat;
+
+    notifyObservers(
+        new GameEvent(
+            GameEventType.HEALTH_CHANGED,
+            this,
+            nom +
+            " est maintenant : "
+            + nouvelEtat.getNomEtat()
+        )
+    );
+}
 	// Getters standard
 	public String getnom() {
 		return nom;
@@ -181,22 +207,44 @@ public void act(Personnage target) {
 
 	// --- CORRECTION DU BUG DE DÉGATS ---
 	public void subirDegats(int degats) {
-		int vieAvant = vie;
-		if (armure < degats) {
-			int degatsNet = degats - armure; // Calcule les dégâts réels traversant l'armure
-			System.out.println("Attaque de : " + degats + " dégâts bruts");
 
-			this.vie = this.vie - degatsNet; // Correction ici : On SOUSTRAIT la vie !
+	    int ancienneVie = vie;
 
-			System.out.println(nom + " subit " + degatsNet + " dégât(s) (Armure a bloqué " + armure + ")");
-		} else {
-			System.out.println(nom + " ne subit aucun dégât (Armure trop solide !)");
-		}
+	    int degatsNets =
+	        etat.appliquerModificateurDefense(
+	            degats,
+	            armure
+	        );
 
-		notifyObservers(new GameEvent(GameEventType.HEALTH_CHANGED, this, "Dégâts reçus par " + nom, vieAvant, vie));
-		if (vie <= 0) {
-			notifyObservers(new GameEvent(GameEventType.CHARACTER_DIED, this, nom + " a été vaincu", vieAvant, vie));
-		}
+	    vie = Math.max(
+	        0,
+	        vie - degatsNets
+	    );
+
+	    notifyObservers(
+	        new GameEvent(
+	            GameEventType.HEALTH_CHANGED,
+	            this,
+	            nom + " subit "
+	            + degatsNets
+	            + " dégâts.",
+	            ancienneVie,
+	            vie
+	        )
+	    );
+
+	    if(vie <= 0) {
+
+	        setEtat(new EtatMort());
+
+	        notifyObservers(
+	            new GameEvent(
+	                GameEventType.CHARACTER_DIED,
+	                this,
+	                nom + " est mort."
+	            )
+	        );
+	    }
 	}
 
 	public boolean isVictory(ArrayList<Personnage> listeperso) {

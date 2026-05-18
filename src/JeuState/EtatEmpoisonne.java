@@ -1,41 +1,60 @@
 package JeuState;
 
-import javax.swing.JOptionPane;
+import Jeu.Personnage;
+import Observer.GameEvent;
+import Observer.GameEventType;
 
 public class EtatEmpoisonne implements EtatPersonnage {
-    private int toursRestants = 3; // Le poison dure 3 tours
 
     @Override
-    public int appliquerModificateurAttaque(int degatsDeBase) {
-        return degatsDeBase; 
+    public int appliquerModificateurAttaque(
+            int degatsBase
+    ) {
+
+        return degatsBase - 1;
     }
 
     @Override
-    public int appliquerModificateurDefense(int degatsSubis, int armure) {
-        if (armure < degatsSubis) {
-            return degatsSubis - armure;
-        }
-        return 0;
+    public int appliquerModificateurDefense(
+            int degatsRecus,
+            int armure
+    ) {
+
+        return Math.max(
+            0,
+            degatsRecus - armure
+        );
     }
 
     @Override
-    public void surFinDeTour(Personnage personnage) {
-        if (toursRestants > 0) {
-            int degatsPoison = 5;
-            // On baisse directement la vie (le poison ignore l'armure)
-            personnage.setvie(Math.max(0, personnage.getvie() - degatsPoison));
-            JOptionPane.showMessageDialog(null, personnage.getnom() + " souffre du poison et perd " + degatsPoison + " HP !");
-            toursRestants--;
-        }
-        
-        if (toursRestants <= 0) {
-            JOptionPane.showMessageDialog(null, "Le poison se dissipe pour " + personnage.getnom() + ".");
-            personnage.setEtat(new EtatNormal()); // Retour à l'état normal
+    public void surFinDeTour(
+            Personnage personnage
+    ) {
+
+        personnage.setvie(
+            personnage.getvie() - 1
+        );
+
+        personnage.notifyObservers(
+            new GameEvent(
+                GameEventType.HEALTH_CHANGED,
+                personnage,
+                personnage.getnom()
+                + " souffre du poison."
+            )
+        );
+
+        if(personnage.getvie() <= 0) {
+
+            personnage.setEtat(
+                new EtatMort()
+            );
         }
     }
 
     @Override
     public String getNomEtat() {
+
         return "Empoisonné";
     }
 }

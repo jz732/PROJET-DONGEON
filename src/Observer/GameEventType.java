@@ -7,4 +7,6 @@ public enum GameEventType {
     CHARACTER_DIED,
     COMBAT_STARTED,
     COMBAT_ENDED
+    
+    
 }

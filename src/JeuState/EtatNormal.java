@@ -1,26 +1,37 @@
 package JeuState;
+import Jeu.Personnage;
 
 public class EtatNormal implements EtatPersonnage {
+ 
     @Override
-    public int appliquerModificateurAttaque(int degatsDeBase) {
-        return degatsDeBase; // Dégâts normaux
+    public int appliquerModificateurAttaque(
+            int degatsBase
+    ) {
+
+        return degatsBase;
     }
 
     @Override
-    public int appliquerModificateurDefense(int degatsSubis, int armure) {
-        if (armure < degatsSubis) {
-            return degatsSubis - armure;
-        }
-        return 0;
+    public int appliquerModificateurDefense(
+            int degatsRecus,
+            int armure
+    ) {
+
+        return Math.max(
+            0,
+            degatsRecus - armure
+        );
     }
 
     @Override
     public void surFinDeTour(Personnage personnage) {
-        // Rien ne se passe
+
+        // Aucun effet
     }
 
     @Override
     public String getNomEtat() {
+
         return "Normal";
     }
 }

@@ -6,11 +6,13 @@ public String nom;
 public int niveau;
 public ArrayList<Objet> objets;
 public ArrayList<Personnage> PNG ;
+public String synopsis;
 public Pieces(String nom, int niveau) {
 	this.nom = nom;
 	this.niveau = niveau;
 	this.objets= new ArrayList<Objet>();
 	PNG = new ArrayList<>();
+	synopsis=null;
 }
 public String getNom() {
 	return nom;
@@ -29,6 +31,12 @@ objets.add(objet);
 }
 public ArrayList<Objet> getObjets() {
 	return objets;
+}
+public String getSynopsis() {
+	return synopsis;
+}
+public void setSynopsis(String synopsis) {
+	this.synopsis = synopsis;
 }
 
 }

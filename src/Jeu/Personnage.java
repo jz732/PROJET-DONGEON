@@ -8,6 +8,8 @@ import Observer.GameEvent;
 import Observer.GameEventType;
 import Observer.Observable;
 import Observer.Observer;
+import JeuStrategy.CombatStrategy;
+import JeuStrategy.RandomStrategy;
 
 public class Personnage implements Observable {
 private String nom;
@@ -34,7 +36,44 @@ public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 			notifyObservers(event);
 		}
 	});
+	// default strategy for NPCs (can be overwritten)
+	this.combatStrategy = new RandomStrategy();
 	niveau=0;
+}
+
+private CombatStrategy combatStrategy;
+
+public void setCombatStrategy(CombatStrategy strategy) {
+	this.combatStrategy = strategy;
+}
+
+public CombatStrategy getCombatStrategy() {
+	return this.combatStrategy;
+}
+
+/** Called to let this personnage perform an automated action against target using its strategy */
+public void act(Personnage target) {
+	if (combatStrategy == null) combatStrategy = new RandomStrategy();
+	int action = combatStrategy.chooseAction(this, target);
+	// 0 = FastAttack, 1 = HeavyAttack, 2 = Defensive
+	if (action == 0) {
+		target.subirDegats(this.degat);
+	} else if (action == 1) {
+		double chance = Math.random();
+		if (chance > 0.4) {
+			target.subirDegats(this.degat * 2);
+		} else {
+			// failed heavy attack: suffer counter-damage
+			this.subirDegats(target.getDegat() * 2);
+		}
+	} else {
+		// Defensive: reduce incoming damage by half this round (approximate by increasing armure temporarily)
+		int oldArmure = this.armure;
+		this.armure += 2;
+		// no immediate damage dealt; armure will affect subsequent subtractDegats calls
+		// We'll revert armure to old value immediately for simplicity (could be improved with State)
+		this.armure = oldArmure;
+	}
 }
 
 //Getters

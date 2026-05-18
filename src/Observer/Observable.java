@@ -7,3 +7,7 @@ public interface Observable {
 
     void notifyObservers(GameEvent event);
 }
+
+
+
+

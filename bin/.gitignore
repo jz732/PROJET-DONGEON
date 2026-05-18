@@ -1,7 +1,7 @@
 /Jeu/
-/Observer/
+/JeuFacade/
 /JeuFactory/
+/JeuSingleton/
 /JeuState/
 /JeuStrategy/
-/JeuSingleton/
-/JeuFacade/
+/Observer/

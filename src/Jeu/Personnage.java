@@ -7,12 +7,12 @@ import Observer.GameEvent;
 import Observer.GameEventType;
 import Observer.Observable;
 import Observer.Observer;
-<<<<<<< HEAD
-=======
+
+
 import JeuStrategy.CombatStrategy;
 import JeuStrategy.RandomStrategy;
 import JeuStrategy.StrategyFactory;
->>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
+
 
 public class Personnage implements Observable {
 	private String nom;

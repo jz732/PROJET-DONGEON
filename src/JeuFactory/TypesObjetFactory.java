@@ -7,11 +7,11 @@ public class TypesObjetFactory {
         switch (type.trim()) {
             case "Objet":
                 // Ici, optionnel = specificite (ex: "Soin", "Attaque")
-                return new ObjetFactory(nom, specificite, valeur);
+                return  new ObjetFactory(nom, specificite, valeur);
                 
             case "Pieces":
                 // Ici, valeur = niveau de la pièce
-                return new PiecesFactory(nom, valeur);
+                return   new PiecesFactory(nom, valeur);
                 
             default:
                 throw new IllegalArgumentException("Type d'élément de jeu inconnu : " + type);

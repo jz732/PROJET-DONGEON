@@ -7,6 +7,8 @@ import Observer.GameEvent;
 import Observer.GameEventType;
 import Observer.Observable;
 import Observer.Observer;
+import JeuStrategy.CombatStrategy;
+import JeuStrategy.RandomStrategy;
 
 public class Personnage implements Observable {
 	private String nom;
@@ -23,42 +25,23 @@ public class Personnage implements Observable {
 
 	private final ArrayList<Observer> observers;
 
-	public Personnage(String nom, int armure, int vie, String specialite, int degat) {
-		this.armure = armure;
-		this.nom = nom;
-		this.specialite = specialite;
-		this.vie = vie;
-		this.inventaire = new Inventaire();
-		this.degat = degat;
-		this.armeEquipee = null;
-		this.armureEquipee = null; // Initialisé à vide
-		this.observers = new ArrayList<Observer>();
-
-		this.inventaire.addObserver(new Observer() {
-			@Override
-			public void update(GameEvent event) {
-				notifyObservers(event);
-			}
-		});
-		this.niveau = 0;
-	}
-
-	// --- GETTERS & SETTERS POUR ÉQUIPEMENTS ---
-	public Objet getArmeEquipee() {
-		return armeEquipee;
-	}
-
-	public void setArmeEquipee(Objet armeEquipee) {
-		this.armeEquipee = armeEquipee;
-	}
-
-	public Objet getArmureEquipee() {
-		return armureEquipee;
-	}
-
-	public void setArmureEquipee(Objet armureEquipee) {
-		this.armureEquipee = armureEquipee;
-	}
+public Personnage(String nom,int armure,int vie,String specialite,int degat) {
+	this.armure=armure;
+	this.nom=nom;
+	this.specialite=specialite;
+	this.vie=vie;
+	this.inventaire=new Inventaire();
+	this.degat=degat;
+	
+	this.observers=new ArrayList<Observer>();
+	this.inventaire.addObserver(new Observer() {
+		@Override
+		public void update(GameEvent event) {
+			notifyObservers(event);
+		}
+	});
+	niveau=0;
+}
 
 	// Getters standard
 	public String getnom() {

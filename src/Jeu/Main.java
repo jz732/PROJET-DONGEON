@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.BorderLayout;
 
+import Observer.ConsoleObserver;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -116,8 +118,10 @@ public class Main {
 		Narration("[1]Magicien",null);
 		Narration("[2]Chevalier",null);
 		int choix = scanner.nextInt();
+		ConsoleObserver consoleObserver = new ConsoleObserver();
 		if (choix == 2) {
 			Personnage player = new Personnage("RAGNAR", 2, 8, "Chevalier", 5);
+			player.addObserver(consoleObserver);
 
 			Narration("Vous vous souvenez des batailles passees et du froid de l'acier.",player);
 			Narration("Votre volonte est votre bouclier et votre bras votre justice .",player);
@@ -125,6 +129,7 @@ public class Main {
 		}
 		if (choix == 1) {
 			Personnage player = new Personnage("FLOKI", 1, 5, "Magicien", 2);
+			player.addObserver(consoleObserver);
 
 			Narration("Vous vous souvenez des batailles passees et du froid de l'acier.",player);
 			Narration("Votre volont est votre bouclier et votre bras votre justice .",player);

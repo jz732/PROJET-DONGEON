@@ -3,7 +3,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
-public class Personnage {
+
+import Observer.GameEvent;
+import Observer.GameEventType;
+import Observer.Observable;
+import Observer.Observer;
+
+public class Personnage implements Observable {
 private String nom;
 private int armure;
 private int vie;
@@ -11,6 +17,8 @@ private String specialite;
 public Inventaire inventaire;
 public int degat;
 public int niveau;
+private final ArrayList<Observer> observers;
+
 public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 	this.armure=armure;
 	this.nom=nom;
@@ -19,6 +27,13 @@ public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 	this.inventaire=new Inventaire();
 	this.degat=degat;
 	
+	this.observers=new ArrayList<Observer>();
+	this.inventaire.addObserver(new Observer() {
+		@Override
+		public void update(GameEvent event) {
+			notifyObservers(event);
+		}
+	});
 	niveau=0;
 }
 
@@ -48,7 +63,14 @@ public void setarmure(int armure) {
 	this.armure=armure;
 }
 public void setvie(int vie) {
+	int ancienneVie = this.vie;
 	this.vie=vie;
+	notifyObservers(new GameEvent(GameEventType.HEALTH_CHANGED, this,
+			"Vie modifiée pour " + nom, ancienneVie, this.vie));
+	if (this.vie <= 0) {
+		notifyObservers(new GameEvent(GameEventType.CHARACTER_DIED, this,
+				nom + " est mort", ancienneVie, this.vie));
+	}
 }
 //methode toString
 @Override
@@ -68,6 +90,35 @@ public void setDegat(int degat) {
 	this.degat = degat;
 }
 
+@Override
+public void addObserver(Observer observer) {
+	if (observer != null && !observers.contains(observer)) {
+		observers.add(observer);
+	}
+}
+
+@Override
+public void removeObserver(Observer observer) {
+	observers.remove(observer);
+}
+
+@Override
+public void notifyObservers(GameEvent event) {
+	for (Observer observer : observers) {
+		observer.update(event);
+	}
+}
+
+public void notifierCombatCommence(Personnage ennemi) {
+	notifyObservers(new GameEvent(GameEventType.COMBAT_STARTED, this,
+			"Combat engagé contre " + ennemi.getnom()));
+}
+
+public void notifierCombatTermine(Personnage ennemi) {
+	notifyObservers(new GameEvent(GameEventType.COMBAT_ENDED, this,
+			"Combat terminé contre " + ennemi.getnom(), vie, ennemi.getvie()));
+}
+
 //affichage personnage
 public void afficherPersonnage(ArrayList<Personnage> listeperso ) {
 for(Personnage p : listeperso) {
@@ -81,6 +132,7 @@ public int jetDeDes() {
 	return r;
 }
 public void subirDegats(int degats) {
+	int vieAvant = vie;
 	if(armure<degats) {
 		System.out.println("attaque de :"+degats+"degat(s)");
 		vie=vie+armure-degats;
@@ -90,6 +142,12 @@ public void subirDegats(int degats) {
 	}
 	else
 	System.out.println(nom +" ne subit aucun degat");	
+	notifyObservers(new GameEvent(GameEventType.HEALTH_CHANGED, this,
+			"Dégâts reçus par " + nom, vieAvant, vie));
+	if (vie <= 0) {
+		notifyObservers(new GameEvent(GameEventType.CHARACTER_DIED, this,
+				nom + " a été vaincu", vieAvant, vie));
+	}
 }
 //fonction isVictory
 public boolean isVictory(ArrayList<Personnage> listeperso) {
@@ -107,6 +165,7 @@ public void Niveausuivant() {
 	
 }
 public void Combat(Personnage png) {
+	notifierCombatCommence(png);
 	
 	String[] actionsCombat = {"Attaque Rapide", "Coup Puissant", "Parade"};
 
@@ -150,5 +209,6 @@ public void Combat(Personnage png) {
 	    JOptionPane.showMessageDialog(null, "Le froid vous envahit... Vous avez échoué.");
 	    // Logique de Game Over
 	}
+	notifierCombatTermine(png);
 }
 }

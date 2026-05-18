@@ -7,6 +7,12 @@ import Observer.GameEvent;
 import Observer.GameEventType;
 import Observer.Observable;
 import Observer.Observer;
+<<<<<<< HEAD
+=======
+import JeuStrategy.CombatStrategy;
+import JeuStrategy.RandomStrategy;
+import JeuStrategy.StrategyFactory;
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 
 public class Personnage implements Observable {
 	private String nom;
@@ -38,7 +44,42 @@ public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 			notifyObservers(event);
 		}
 	});
+	// default strategy
+	this.combatStrategy = new RandomStrategy();
 	niveau=0;
+}
+
+private CombatStrategy combatStrategy;
+
+public void setCombatStrategy(CombatStrategy strategy) {
+	this.combatStrategy = strategy;
+}
+
+public CombatStrategy getCombatStrategy() {
+	return this.combatStrategy;
+}
+
+/** NPC/AI performs one action against target using its strategy */
+public void act(Personnage target) {
+	if (combatStrategy == null) combatStrategy = new RandomStrategy();
+	int action = combatStrategy.chooseAction(this, target);
+	if (action == 0) { // fast
+		target.subirDegats(this.degat);
+	} else if (action == 1) { // heavy
+		double chance = Math.random();
+		if (chance > 0.4) {
+			target.subirDegats(this.degat * 2);
+		} else {
+			// failed heavy: take counter-damage
+			this.subirDegats(target.getDegat());
+		}
+	} else { // defensive
+		// defensive action: reduce incoming damage for next attack by increasing armure briefly
+		int oldArmure = this.armure;
+		this.armure += 2;
+		// keep it simple: don't change further now
+		this.armure = oldArmure;
+	}
 }
 
 	// Getters standard
@@ -278,10 +319,10 @@ public Personnage(String nom,int armure,int vie,String specialite,int degat) {
 				}
 			}
 
-			// --- RIPOSTE DE L'ENNEMI ---
+			// --- RIPOSTE DE L'ENNEMI (via Strategy) ---
 			if (png.getvie() > 0 && tourConsomme) {
 				JOptionPane.showMessageDialog(null, "Le " + png.getnom() + " contre-attaque !");
-				this.subirDegats(png.getDegat());
+				png.act(this);
 			}
 		}
 

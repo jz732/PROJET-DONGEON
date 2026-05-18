@@ -12,6 +12,7 @@ import JeuSingleton.GameManager;
 import java.awt.Color;
 
 import Observer.ConsoleObserver;
+import JeuStrategy.StrategyFactory;
 
 public class Main {
 
@@ -35,6 +36,7 @@ public class Main {
 		piece1.AddObjet(potion);
 
 		Pieces piece2 = new Pieces("LE COULOIR SOMBRE", 2);
+<<<<<<< HEAD
 		piece2.setSynopsis(
 				"Le verrou a saute. Vous glissez prudemment dans le couloir sombre du donjon.\nMalheureusement, le grincement a alerte le Garde Ivre.\nLe battre est votre seule chance de continuer.");
 		piece2.PNG.add(new Personnage("Garde Ivre", 1, 8, "Guerrier", 2));
@@ -44,6 +46,19 @@ public class Main {
 		p3.setSynopsis(
 				"L'odeur de fer et de sang vous souleve le coeur. Le Bourreau est la, brandissant sa hache.\nSi vous le terrassez, un soldat fidele aura peut-etre le temps de vous reveler un secret.");
 		p3.PNG.add(new Personnage("Le Bourreau", 2, 15, "Boss", 4));
+=======
+		piece2.setSynopsis("Le verrou a saute. Vous glissez prudemment dans le couloir sombre du donjon.\nMalheureusement, le grincement a alerte le Garde Ivre.\nLe battre est votre seule chance de continuer.");
+		Personnage garde = new Personnage("Garde Ivre", 1, 8, "Guerrier", 2);
+		garde.setCombatStrategy(StrategyFactory.getStrategy("fast"));
+		piece2.PNG.add(garde);
+		piece2.AddObjet(bouclierBois);
+
+		Pieces p3 = new Pieces("LA SALLE DES TORTURES", 3);
+		p3.setSynopsis("L'odeur de fer et de sang vous souleve le coeur. Le Bourreau est la, brandissant sa hache.\nSi vous le terrassez, un soldat fidele aura peut-etre le temps de vous reveler un secret.");
+		Personnage bourreau = new Personnage("Le Bourreau", 2, 15, "Boss", 4);
+		bourreau.setCombatStrategy(StrategyFactory.getStrategy("heavy"));
+		p3.PNG.add(bourreau);
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 
 		Pieces p4 = new Pieces("L'ARMURERIE ROYALE", 4);
 		p4.setSynopsis(
@@ -52,6 +67,7 @@ public class Main {
 		p4.AddObjet(dagueGarde);
 
 		Pieces p5 = new Pieces("LA GRANDE BIBLIOTHEQUE", 5);
+<<<<<<< HEAD
 		p5.setSynopsis(
 				"Au milieu des milliers de livres, l'Ermite vous attend de pied ferme.\nCe vieux sage refuse de vous laisser monter sans tester votre esprit.");
 		p5.PNG.add(new Personnage("L'Ermite", 0, 100, "Sage", 0));
@@ -60,6 +76,18 @@ public class Main {
 		p6.setSynopsis(
 				"L'air devient glacial. L'autel a ete profane par le Pretre Dechu.\nVous devez briser sa malediction.");
 		p6.PNG.add(new Personnage("Pretre Dechu", 1, 20, "Mage", 5));
+=======
+		p5.setSynopsis("Au milieu des milliers de livres, l'Ermite vous attend de pied ferme.\nCe vieux sage refuse de vous laisser monter sans tester votre esprit.");
+		Personnage ermite = new Personnage("L'Ermite", 0, 100, "Sage", 0);
+		ermite.setCombatStrategy(StrategyFactory.getStrategy("defensive"));
+		p5.PNG.add(ermite);
+
+		Pieces p6 = new Pieces("LA CHAPELLE MAUDITE", 6);
+		p6.setSynopsis("L'air devient glacial. L'autel a ete profane par le Pretre Dechu.\nVous devez briser sa malediction.");
+		Personnage pretre = new Personnage("Pretre Dechu", 1, 20, "Mage", 5);
+		pretre.setCombatStrategy(StrategyFactory.getStrategy("heavy"));
+		p6.PNG.add(pretre);
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 		p6.AddObjet(amuletteProt);
 
 		Pieces p7 = new Pieces("LES CUISINES DESERTES", 7);
@@ -68,17 +96,31 @@ public class Main {
 		p7.AddObjet(elixirRoyal);
 
 		Pieces p8 = new Pieces("LE PONT-LEVIS INTERIEUR", 8);
+<<<<<<< HEAD
 		p8.setSynopsis(
 				"Une silhouette familiale vous barre le passage. C'est Sir Alister, votre ancien frere d'armes.\nForce de servir l'Usurpateur, il tire son epee les larmes aux yeux.");
 		p8.PNG.add(new Personnage("Sir Alister", 5, 25, "Chevalier", 6));
+=======
+		p8.setSynopsis("Une silhouette familiale vous barre le passage. C'est Sir Alister, votre ancien frere d'armes.\nForce de servir l'Usurpateur, il tire son epee les larmes aux yeux.");
+		Personnage alister = new Personnage("Sir Alister", 5, 25, "Chevalier", 6);
+		alister.setCombatStrategy(StrategyFactory.getStrategy("heavy"));
+		p8.PNG.add(alister);
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 
 		Pieces p9 = new Pieces("L'ANTICHAMBRE DU TRONE", 9);
 		p9.setSynopsis("Une piece vide occupied par un miroir magique geant. Il demande la verite sur vos intentions.");
 
 		Pieces p10 = new Pieces("LA SALLE DU TRONE", 10);
+<<<<<<< HEAD
 		p10.setSynopsis(
 				"Ragnaros l'Usurpateur est assis sur votre siege, la Lame de Lumiere a ses cotes.\nC'est l'heure de la vengeance !");
 		p10.PNG.add(new Personnage("Ragnaros l'Usurpateur", 8, 50, "Roi", 10));
+=======
+		p10.setSynopsis("Ragnaros l'Usurpateur est assis sur votre siege, la Lame de Lumiere a ses cotes.\nC'est l'heure de la vengeance !");
+		Personnage ragnaros = new Personnage("Ragnaros l'Usurpateur", 8, 50, "Roi", 10);
+		ragnaros.setCombatStrategy(StrategyFactory.getStrategy("heavy"));
+		p10.PNG.add(ragnaros);
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 		p10.AddObjet(lameLumiere);
 
 		// --- AJOUT DES PIÈCES DANS LE MONDE ---
@@ -292,10 +334,15 @@ public class Main {
 	}
 
 	public static void MenuIntermediaire(Personnage player) {
+<<<<<<< HEAD
 		// Ajout des options de sauvegarde dans le menu
 		String[] choix = { "Continuer l'aventure", "Ouvrir l'Inventaire", "Sauvegarder la partie",
 				"Charger la partie" };
 		int action = JOptionPane.showOptionDialog(null, "Que voulez-vous faire ?", "Pause / Gestion du Jeu", 0,
+=======
+		String[] choix = { "Continuer l'aventure", "Ouvrir l'Inventaire (Soins/Equipement)", "Changer la strategie" };
+		int action = JOptionPane.showOptionDialog(null, "Que voulez-vous faire ?", "Pause", 0,
+>>>>>>> d970194fb396aab0e7ca128fe1c45fe8458cc398
 				JOptionPane.QUESTION_MESSAGE, null, choix, choix[0]);
 
 		if (action == 1) { // --- INVENTAIRE ---
@@ -355,6 +402,31 @@ public class Main {
 			// la ligne de code de la pièce.
 			// Pour cela, il faudra utiliser la boucle Façade ou un switch/case basé sur
 			// GameManager.getInstance().getPieceActuelleIndex().
+			MenuIntermediaire(player);
+		}
+		else if (action == 2) {
+			String[] stratOptions = { "Attaque rapide", "Coup puissant", "Defensif", "Aleatoire" };
+			int s = JOptionPane.showOptionDialog(null, "Choisissez votre strategie de combat :", "Strategie", 0,
+				JOptionPane.QUESTION_MESSAGE, null, stratOptions, stratOptions[0]);
+			if (s >= 0) {
+				String type = "random";
+				switch (s) {
+				case 0:
+					type = "fast";
+					break;
+				case 1:
+					type = "heavy";
+					break;
+				case 2:
+					type = "defensive";
+					break;
+				case 3:
+					type = "random";
+					break;
+				}
+				player.setCombatStrategy(JeuStrategy.StrategyFactory.getStrategy(type));
+				JOptionPane.showMessageDialog(null, "Strategie definie : " + stratOptions[s]);
+			}
 			MenuIntermediaire(player);
 		}
 	}

@@ -133,8 +133,8 @@ public class Main {
 		monde.AddPieces(p10); // Index 9
 
 		// --- CONFIGURATION DE L'UI ---
-		UIManager.put("OptionPane.background", Color.BLACK);
-		UIManager.put("Panel.background", Color.BLACK);
+		UIManager.put("OptionPane.background", Color.WHITE);
+		UIManager.put("Panel.background", Color.WHITE);
 		GameManager.getInstance().setPieceActuelleIndex(0); // Synchronise le Singleton
 		Narration("Le silence regne dans la piece . Avant d'ouvrir les yeux, vous devez vous souvenir ...\n", null);
 		Narration("Qui étiez-vous avant la chute?", null);
@@ -163,7 +163,7 @@ public class Main {
 	}
 
 	public static void Narration(String message, Personnage player) {
-		JLabel label = new JLabel("<html><div style='text-align: center; width: 350px; color: white;'>"
+		JLabel label = new JLabel("<html><div style='text-align: center; width: 350px; color: black;'>"
 				+ message.replaceAll("\n", "<br>") + "</div></html>");
 
 		String[] options = { "Continuer", "Inventaire", "Pause" };
